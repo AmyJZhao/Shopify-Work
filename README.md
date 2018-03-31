@@ -12,4 +12,5 @@ This is the first time I've worked with Shopify, but I'm familiar with e-commerc
 I also found that the feature itself also lent itself to other modifications the e-commerce store required. For example, the price of the full outfits had to be set to $0, which would be awkward to display. Thus, I had to make further code changes to hide the $0 pricing on collection and product pages. Furthermore, I also had to apply the requested feature to the quick view, since the quick view has to match the product page.
 #### Code
 I modified the product.customizable.liquid file so that regular individual products could use the regular product template and the full outfits would use the customizable template.
+Link to [product.customizable.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.customizable.liquid)
 
