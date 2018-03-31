@@ -11,6 +11,85 @@ One aspect of Kilari Blue's brand is the styling of full outfits. For example, a
 This is the first time I've worked with Shopify, but I'm familiar with e-commerce platforms as a whole because I've worked with Wordpress (as an intern at Bellanove ([bellanove.com](http://www.bellanove.com/))) and Squarespace (as CTO of Vanth ([vanththeapp.com](https://www.vanththeapp.com/))). However, it was clear that this requested feature would require some coding. Shopify uses a templating language called Liquid, and in fact, all Shopify themes use Liquid to build and put together page templates. I'd never worked with Liquid before, so the challenge was to figure out how to organize all the products (invididual products and full outfits) and collections, get an intuition for Liquid by reading its reference and documentation, and modify the product template to get the feature the client requested.
 I also found that the feature itself also lent itself to other modifications the e-commerce store required. For example, the price of the full outfits had to be set to $0, which would be awkward to display. Thus, I had to make further code changes to hide the $0 pricing on collection and product pages. Furthermore, I also had to apply the requested feature to the quick view, since the quick view has to match the product page.
 #### Code
-I modified the product.customizable.liquid file so that regular individual products could use the regular product template and the full outfits would use the customizable template.
-Link to [product.customizable.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.customizable.liquid)
+I modified the [`product.customizable.liquid`](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.customizable.liquid) file so that regular individual products could use the regular product template and the full outfits would use the customizable template.
+``` liquid
+<div id="product-right" class="desktop-6 mobile-3">
+<div id="product-description">
+    <h2>Shop this look</h2>
+    {% if section.settings.product-vendor %}
+        <h3>{{ 'products.product.designer' | t }}: {{ product.vendor }}</h3>
+    {% endif %}
+    <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+    {% for product in collections.timeless.products %}
+        <h2>{{ product.title }}</h2>
+        {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+        <img id="{{ product.id }}" data-image-id="{{ image.id }}" src="{{ featured_image | img_url: '150x' }}" alt='{{ image.alt | escape }}' title="{{ product.title }}"/>
+        <p id="product-price">
+            {% if product.available %}
+                {% if product.compare_at_price > product.price %}
+                    <span class="product-price" itemprop="price">{{ product.price | money }}</span>&nbsp;<span class="was">{{ product.compare_at_price | money }}</span>
+                {% else %}
+                    <span class="product-price" itemprop="price">{{ product.price | money }}</span>
+                {% endif %}
+            {% else %}
+                <span class="product-price" itemprop="price">{{ 'products.product.sold_out' | t }}</span>
+            {% endif %}
+        </p>
+        <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+        <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
 
+        {% if section.settings.product-note != blank %}
+            <p class="product-note">
+                {{ section.settings.product-note | escape }}
+            </p>
+        {% endif %}
+
+        {% if section.settings.show-sku %}
+            <span class="variant-sku"></span>
+        {% endif %}
+        
+        <form action="/cart/add" method="post" data-money-format="{{ shop.money_format }}" class="product_form{% if product.variants.size > 1 or product.options.size > 1 %} with_variants{% endif %}" id="AddToCartForm" data-product="{{ product | json | escape }}">
+            {% if product.options.size > 1 %}
+                <div class="select" style="display:inline-block">
+                    <select id="product-select-{{ product.id }}" name='id'>
+                        {% for variant in product.variants %}
+                            <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% elsif product.options.size == 1 and product.variants.size > 1 %}
+                <div class="select" style="display:inline-block">
+                    <label>{{ product.options[0] }}</label>
+                    <select id="product-select-{{ product.id }}" name='id'>
+                        {% for variant in product.variants %}
+                            <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% else %}
+                <div class="what-is-it">
+                    {% if product.options.first != 'Title' %}
+                        <label>{{ product.options.first }}:</label>{% for variant in product.variants %}<span class="it-is">{{ variant.option1 | escape }}</span>{% endfor %}
+                    {% endif %}
+                </div>
+                <div class="product-variants"></div><!-- product variants -->
+                    <input  type="hidden" id="{{ variant.id }}" name="id" data-sku="{{ variant.sku }}" value="{{ product.variants[0].id }}" />
+            {% endif %}
+
+            {% if product.available %}
+                <div class="product-add" style="display:block">
+                    <label for="quantity">Quantity</label>
+                    <input min="1" type="number" class="quantity" name="quantity" value="1" />
+                    <input type="submit" name="button" class="add" id="AddToCart" value="{{ 'products.product.add_to_cart' | t }}" />
+                </div>
+            {% endif %}
+        </form>
+        
+        {% if product.variants.size > 1 or product.options.size > 1 %}
+            <script type="application/json" id="ProductJson-{{ product.id }}">
+                {{ product | json }}
+            </script>
+        {% endif %}
+    {% endfor %}
+</div>
+```
