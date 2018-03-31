@@ -15,10 +15,22 @@
   </div>
   <div id="product-right">
     <div id="product-description">
+      {% if product.type == 'Full Outfit' %}
       <h2>{{ product.title }}</h2>
+      <div class="rte">
+        {{ product.description | strip_html | truncatewords: 40 }}
+        <p class="view-full"><a href="{{ product.url | within: collection }}">{{ 'products.general.view_full' | t }}</a></p>
+      </div> 
+      <div class="clear"></div>
+      <h2 style="margin-bottom: 20px">ITEMS IN THE LOOK</h2>
       {% if settings.vendor %}<h3>{{ 'products.product.designer' | t }}: {{ product.vendor }}</h3>{% endif %}
-      
-      <p id="product-price">
+  		
+      {% assign collection_handle = product.handle %}
+      {% for product in collections[collection_handle].products %}
+        	<h2>{{ product.title }}</h2>
+            {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+      			<img id="{{ product.id }}" data-image-id="{{ image.id }}" src="{{ featured_image | img_url: '150x' }}" alt='{{ image.alt | escape }}' title="{{ product.title }}"/>
+            <p id="product-price">
         {% if product.available %}
         {% if product.compare_at_price > product.price %}
         <span class="product-price" itemprop="price">{{ product.price | money }}</span>&nbsp;<span class="was">{{ product.compare_at_price | money }}</span>
@@ -29,10 +41,10 @@
         <span class="product-price" itemprop="price">{{ 'products.product.sold_out' | t }}</span>
         {% endif %}
       </p> 
-
+	
       <form action="/cart/add" method="post" data-money-format="{{ shop.money_format }}" enctype="multipart/form-data" id="AddToCartForm">
         {% if product.options.size > 1 %}
-        <div class="select">
+        <div class="select" style="display:inline-block">
           <select id="product-select-{{ product.id }}" name='id'>
             {% for variant in product.variants %}
             <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
@@ -40,7 +52,7 @@
           </select>
         </div>
         {% elsif product.options.size == 1 and product.variants.size > 1 %}
-        <div class="select">
+        <div class="select" style="display:inline-block">
           <label>{{ product.options[0] }}</label>
           <select id="product-select-{{ product.id }}" name='id'>
             {% for variant in product.variants %}
@@ -58,11 +70,63 @@
         <input  type="hidden" id="{{ variant.id }}" name="id" data-sku="{{ variant.sku }}" value="{{ product.variants[0].id }}" />    
         {% endif %}
         {% if product.available %} 
-        <div class="product-add">
+        <div class="product-add" style="display:block">
           <label for="quantity">Quantity</label> 
           <input min="1" type="number" class="quantity" name="quantity" value="1" />
           <input type="submit" name="button" class="add" id="AddToCart" value="{{ 'products.product.add_to_cart' | t }}" />
         </div>
+        {% endif %}
+      </form>      
+      {% endfor %}
+      {% else %}
+      <h2>{{ product.title }}</h2>
+      {% if settings.vendor %}<h3>{{ 'products.product.designer' | t }}: {{ product.vendor }}</h3>{% endif %}
+  
+      <p id="product-price">
+        {% if product.available %}
+          {% if product.compare_at_price > product.price %}
+            <span class="product-price" itemprop="price">{{ product.price | money }}</span>&nbsp;<span class="was">{{ product.compare_at_price | money }}</span>
+          {% else %}
+            <span class="product-price" itemprop="price">{{ product.price | money }}</span>
+          {% endif %}
+        {% else %}
+          <span class="product-price" itemprop="price">{{ 'products.product.sold_out' | t }}</span>
+        {% endif %}
+      </p> 
+	
+      <form action="/cart/add" method="post" data-money-format="{{ shop.money_format }}" enctype="multipart/form-data" id="AddToCartForm">
+        {% if product.options.size > 1 %}
+          <div class="select">
+            <select id="product-select-{{ product.id }}" name='id'>
+              {% for variant in product.variants %}
+                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        {% elsif product.options.size == 1 and product.variants.size > 1 %}
+          <div class="select">
+            <label>{{ product.options[0] }}</label>
+            <select id="product-select-{{ product.id }}" name='id'>
+              {% for variant in product.variants %}
+                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        {% else %}
+          <div class="what-is-it">
+            {% if product.options.first != 'Title' %}
+              <label>{{ product.options.first }}:</label>{% for variant in product.variants %}<span class="it-is">{{ variant.option1 | escape }}</span>{% endfor %}
+            {% endif %}
+          </div>
+          <div class="product-variants"></div><!-- product variants -->  
+            <input  type="hidden" id="{{ variant.id }}" name="id" data-sku="{{ variant.sku }}" value="{{ product.variants[0].id }}" />    
+        {% endif %}
+        {% if product.available %} 
+          <div class="product-add">
+            <label for="quantity">Quantity</label> 
+            <input min="1" type="number" class="quantity" name="quantity" value="1" />
+            <input type="submit" name="button" class="add" id="AddToCart" value="{{ 'products.product.add_to_cart' | t }}" />
+          </div>
         {% endif %}
       </form>      
       
@@ -70,10 +134,12 @@
         {{ product.description | strip_html | truncatewords: 40 }}
         <p class="view-full"><a href="{{ product.url | within: collection }}">{{ 'products.general.view_full' | t }}</a></p>
       </div> 
+      {% endif %}
       <div class="desc">
         {% include 'social' with product %}
       </div>      
     </div> 
+    
   </div>      
 </div>
 
