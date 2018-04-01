@@ -13,7 +13,7 @@ I also found that the feature itself also lent itself to other modifications the
 #### Theme
 This Shopify store uses the [Icon theme](https://themes.shopify.com/themes/icon/styles/dolce?page=2#Reviews).
 #### Code
-- [product.customizable.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.customizable.liquid)
+##### [product.customizable.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.customizable.liquid)
 
 Regular individual products could use the regular product template and the full outfits would use the customizable template and display the individual products.
 
@@ -30,7 +30,7 @@ I created a collection that would have the same handle as the product (so 'Timel
     </div>
 </div>
 ```
-- [product.quick.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.quick.liquid) 
+##### [product.quick.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.quick.liquid) 
 
 Display the list of individual products on Quick View as well.
 
@@ -47,7 +47,7 @@ This time, I needed the template to work for both regular products and full outf
     ...
 {% endif %}
 ```
-- product-listing.liquid
+##### [product-listing.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product-listing.liquid)
 Hide $0 prices 
 ``` liquid
 <div class="price">
@@ -72,13 +72,13 @@ Hide $0 prices
     {% endunless %}
 </div>
 ```
-- collection-list-template.liquid
+##### [collection-list-template.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/collection-list-template.liquid)
 Only display certain collections on the collections list page, which normally lists every collection. This would be problematic since I made extra collections like Full Outfits and Individual Products for organizational purposes. This code makes it so that only the collections in the `all-collections` navigational menu would be displayed.
 ``` liquid
 {% for link in linklists.all-collections.links %}
 {% assign collection = link.object %}
 ```
-- collection-listing.liquid
+##### [collection-listing.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/collection-listing.liquid)
 Only display certain collections in the list of collections on the `cart` page.
 ``` liquid
 {% for link in linklists.all-collections.links %}
