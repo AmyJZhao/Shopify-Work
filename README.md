@@ -13,7 +13,7 @@ I also found that the feature itself also lent itself to other modifications the
 #### Theme
 This Shopify store uses the [Icon theme](https://themes.shopify.com/themes/icon/styles/dolce?page=2#Reviews).
 #### Code
-I modified the [`product.customizable.liquid`](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.customizable.liquid) file so that regular individual products could use the regular product template and the full outfits would use the customizable template.
+I modified the [product.customizable.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.customizable.liquid) file so that regular individual products could use the regular product template and the full outfits would use the customizable template.
 
 To display the individual products in each outfit: 
 
@@ -31,7 +31,7 @@ I created a collection that would have the same handle as the product (so 'Timel
 </div>
 ```
 
-I also modified the [`product.quick.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.quick.liquid) file to display the list of individual products on Quick View as well.
+I also modified the [product.quick.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.quick.liquid) file to display the list of individual products on Quick View as well.
 
 This time, I needed the template to work for both regular products and full outfits. Thus, I wrote an if-else statement that would format the quick view based on the product type.
 ``` liquid
