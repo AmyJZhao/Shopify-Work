@@ -13,11 +13,11 @@ I also found that the feature itself also lent itself to other modifications the
 #### Theme
 This Shopify store uses the [Icon theme](https://themes.shopify.com/themes/icon/styles/dolce?page=2#Reviews).
 #### Code
-I modified the [product.customizable.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.customizable.liquid) file so that regular individual products could use the regular product template and the full outfits would use the customizable template.
+- [product.customizable.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.customizable.liquid)
 
-To display the individual products in each outfit: 
+Regular individual products could use the regular product template and the full outfits would use the customizable template and display the individual products.
 
-I created a collection that would have the same handle as the product (so 'Timeless' collection for the 'Timeless' full outfit) and added the individual products to it. Then, in the `product.customizable.liquid` file, I added a loop that would iterate through all the products in the collection and display their details, prices, variants, and add to cart buttons.
+I created a collection that would have the same handle as the product (so 'Timeless' collection for the 'Timeless' full outfit) and added the individual products to it. Then, in the `product.customizable.liquid` file, I added a loop that would iterate through all the products in the collection and display their details, prices, variants, and add to cart buttons. I also moved around some elements, such as the product description, to make the product page look better. 
 ``` liquid
 <div id="product-right" class="desktop-6 mobile-3">
     <div id="product-description">
@@ -30,8 +30,9 @@ I created a collection that would have the same handle as the product (so 'Timel
     </div>
 </div>
 ```
+- [product.quick.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.quick.liquid) 
 
-I also modified the [product.quick.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.quick.liquid) file to display the list of individual products on Quick View as well.
+Display the list of individual products on Quick View as well.
 
 This time, I needed the template to work for both regular products and full outfits. Thus, I wrote an if-else statement that would format the quick view based on the product type.
 ``` liquid
@@ -46,3 +47,41 @@ This time, I needed the template to work for both regular products and full outf
     ...
 {% endif %}
 ```
+- product-listing.liquid
+Hide $0 prices 
+``` liquid
+<div class="price">
+    {% unless product.price == 0 %}
+        {% if product.price < product.compare_at_price %}
+            <div class="onsale">
+                {{ product.price | money }}
+            </div>
+            <div class="was-listing">
+                {{ product.compare_at_price | money }}
+            </div>
+        {% else %}
+            <div class="prod-price">
+                {% if product.price_varies %} 
+                    {{ 'products.general.from' | t }} 
+                    {{ product.price_min | money }} - {{ product.price_max | money }} 
+                {% else %}
+                    {{ product.price | money }}
+                {% endif %}
+            </div>
+        {% endif %}	
+    {% endunless %}
+</div>
+```
+- collection-list-template.liquid
+Only display certain collections on the collections list page, which normally lists every collection. This would be problematic since I made extra collections like Full Outfits and Individual Products for organizational purposes. This code makes it so that only the collections in the `all-collections` navigational menu would be displayed.
+``` liquid
+{% for link in linklists.all-collections.links %}
+{% assign collection = link.object %}
+```
+- collection-listing.liquid
+Only display certain collections in the list of collections on the `cart` page.
+``` liquid
+{% for link in linklists.all-collections.links %}
+{% assign collection = link.object %}
+```
+
