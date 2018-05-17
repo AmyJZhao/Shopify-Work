@@ -17,11 +17,7 @@ I also found that the feature itself also lent itself to other modifications the
 #### Theme
 This Shopify store uses the [Icon theme](https://themes.shopify.com/themes/icon/styles/dolce?).
 #### Feature Demonstration
-<div align="center">
-    <iframe width="620" height="315"
-        src="https://github.com/AmyJZhao/Shopify-Work/blob/master/FeatureDemo.MP4">
-    </iframe>
-</div>
+<div align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/w_e8WsDpD6s" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
 
 #### Code
 ##### [product.customizable.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.customizable.liquid)
