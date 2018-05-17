@@ -17,7 +17,7 @@ I also found that the feature itself also lent itself to other modifications the
 #### Theme
 This Shopify store uses the [Icon theme](https://themes.shopify.com/themes/icon/styles/dolce?).
 #### Feature Demonstration
-[![IMAGE ALT TEXT](http://img.youtube.com/vi//w_e8WsDpD6s/0.jpg)](http://www.youtube.com/watch?v=w_e8WsDpD6s "Kilari Blue Feature Demo")
+![IMAGE ALT TEXT](http://img.youtube.com/vi//w_e8WsDpD6s/0.jpg)](http://www.youtube.com/watch?v=w_e8WsDpD6s "Kilari Blue Feature Demo")
 
 #### Code
 ##### [product.customizable.liquid](https://github.com/AmyJZhao/Shopify-Work/blob/master/product.customizable.liquid)
