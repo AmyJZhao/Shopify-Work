@@ -2,7 +2,7 @@
 As a freelancer who sets up Shopify e-commerce stores, my clients sometimes request features outside of Shopify's default functionality. Thus, I often have to code a solution using Liquid. This repository holds the code customizations I've written for Shopify.
 
 ## Clients
-### Kilari Blue ([kilariblue.com](www.kilariblue.com))
+### Kilari Blue ([kilariblue.com](https://kilariblue.com/))
 #### About
 Kilari Blue is an online retailer that focuses on providing business casual and professional clothing for women. Our store carries mid-to-high end brands and designers who  provide a contemporary take on traditional business wear. The goal is to bring the unique pieces of boutiques into the workplace, but still staying within the office appropriate guidelines. Our customer is a young, fun, and trendy girl who is bored of wearing the same 5 basics to work and is looking for special, premium pieces that are more exciting than what she can find at department stores.
 
