@@ -93,3 +93,9 @@ Only display certain collections in the list of collections on the `cart` page.
 ```
 #### Screenshots
 ![Collection](https://github.com/AmyJZhao/Shopify-Work/blob/master/CollectionPageEx.png)
+![Screenshot 2](https://github.com/AmyJZhao/Shopify-Work/blob/master/screenshot2.png)
+![Screenshot 3](https://github.com/AmyJZhao/Shopify-Work/blob/master/screenshot3.png)
+![Screenshot 4](https://github.com/AmyJZhao/Shopify-Work/blob/master/screenshot4.png)
+![Screenshot 5](https://github.com/AmyJZhao/Shopify-Work/blob/master/screenshot5.png)
+![Screenshot 6](https://github.com/AmyJZhao/Shopify-Work/blob/master/screenshot6.png)
+![Screenshot 7](https://github.com/AmyJZhao/Shopify-Work/blob/master/screenshot7.png)
